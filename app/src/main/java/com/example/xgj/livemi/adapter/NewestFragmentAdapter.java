@@ -26,7 +26,7 @@ public class NewestFragmentAdapter extends BaseQuickAdapter<NewestEntity, BaseVi
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, NewestEntity s) {
-//        baseViewHolder.addOnClickListener()
+        baseViewHolder.addOnClickListener(R.id.rl_base).addOnClickListener(R.id.tv_status);
         baseViewHolder.setText(R.id.iv_level, s.getLevel());
         baseViewHolder.setText(R.id.tv_status, s.getStatus()).setBackgroundRes(R.id.tv_status, R.drawable.radius_red_bg);
         baseViewHolder.setText((R.id.tv_livenum), s.getTv_livenum() + "人观看");

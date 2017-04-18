@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.adapter.NewestFragmentAdapter;
 import com.example.xgj.livemi.entity.NewestEntity;
+import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseFragment;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
@@ -62,24 +64,41 @@ public class NewestFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        newestEntityList=new ArrayList<>();
-        NewestEntity newestEntity=new NewestEntity();
-        for (int i=0;i<14;i++){
+        newestEntityList = new ArrayList<>();
+        NewestEntity newestEntity = new NewestEntity();
+        for (int i = 0; i < 34; i++) {
             newestEntity.setImage("");
-            newestEntity.setLevel(""+i);
-            newestEntity.setStatus(""+i+i);
-            newestEntity.setTv_livenum(""+i);
+            newestEntity.setLevel("" + i);
+            newestEntity.setStatus("" + i + i);
+            newestEntity.setTv_livenum("" + i);
             newestEntityList.add(newestEntity);
         }
-        newestFragmentAdapter=new NewestFragmentAdapter(newestEntityList,getContext());
+        newestFragmentAdapter = new NewestFragmentAdapter(newestEntityList, getContext());
         rv_list.setAdapter(newestFragmentAdapter);
+        newestFragmentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                NewestEntity item = (NewestEntity) baseQuickAdapter.getItem(position);
+                switch (view.getId()){
+                    case R.id.tv_status:
+
+                        ShowToastUtils.showToast(getContext(), "lallal");
+                        break;
+                    case R.id.rl_base:
+                        ShowToastUtils.showToast(getContext(), item.getStatus());
+                        break;
+
+                }
+
+            }
+        });
     }
 
     @Override
     protected void initView() {
         initViewpage();
         rv_list.setHasFixedSize(true);
-        rv_list.setLayoutManager(new GridLayoutManager(getContext(),2));
+        rv_list.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
     }
 
