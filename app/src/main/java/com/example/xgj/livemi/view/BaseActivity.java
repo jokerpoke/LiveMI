@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.xgj.livemi.utils.MyApp;
+import com.squareup.leakcanary.RefWatcher;
+
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -79,6 +82,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApp.getRefWatcher();
+        refWatcher.watch(this);
+    }
 
     protected abstract Object getLayoutResIdOrView();
 

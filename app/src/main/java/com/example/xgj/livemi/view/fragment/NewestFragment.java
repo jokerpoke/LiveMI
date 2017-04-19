@@ -65,14 +65,16 @@ public class NewestFragment extends BaseFragment {
     @Override
     protected void initData() {
         newestEntityList = new ArrayList<>();
-        NewestEntity newestEntity = new NewestEntity();
+
         for (int i = 0; i < 34; i++) {
+            NewestEntity newestEntity = new NewestEntity();
             newestEntity.setImage("");
             newestEntity.setLevel("" + i);
             newestEntity.setStatus("" + i + i);
             newestEntity.setTv_livenum("" + i);
             newestEntityList.add(newestEntity);
         }
+
         newestFragmentAdapter = new NewestFragmentAdapter(newestEntityList, getContext());
         rv_list.setAdapter(newestFragmentAdapter);
         newestFragmentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -81,7 +83,6 @@ public class NewestFragment extends BaseFragment {
                 NewestEntity item = (NewestEntity) baseQuickAdapter.getItem(position);
                 switch (view.getId()){
                     case R.id.tv_status:
-
                         ShowToastUtils.showToast(getContext(), "lallal");
                         break;
                     case R.id.rl_base:

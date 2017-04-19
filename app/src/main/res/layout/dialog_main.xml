@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#33ffffff"
+              android:gravity="center"
+              android:id="@+id/ll_base"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_dialog"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:background="@drawable/dialog_main_radius">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"
+            android:src="@mipmap/living_open_close_icon"/>
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/maindialog_textsub_bg"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="7dp"
+            android:text="一键关注"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tv_submit"
+            android:layout_below="@id/iv_close"
+            android:layout_margin="15dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

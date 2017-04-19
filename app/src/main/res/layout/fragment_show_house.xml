@@ -1,13 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+              android:orientation="vertical"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context="com.example.xgj.livemi.view.fragment.ShowHouseFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/roll_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="120dp"
+        app:rollviewpager_play_delay="3000"/>
 
-</FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_below="@id/roll_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

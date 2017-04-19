@@ -4,6 +4,7 @@ package com.example.xgj.livemi.view.fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.adapter.MainTabAdapter;
 import com.example.xgj.livemi.view.BaseFragment;
+import com.example.xgj.livemi.view.weight.MainDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,24 +79,13 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void addFrag() {
-        baseFragmentList = new ArrayList<>();
-        titleList = new ArrayList<>();
-        baseFragmentList.add(AttentionFragment.newInstance());
-        baseFragmentList.add(HotFragment.newInstance());
-        baseFragmentList.add(NewestFragment.newInstance());
-        baseFragmentList.add(ShowHouseFragment.newInstance());
-
-        titleList.add("关注");
-        titleList.add("热门");
-        titleList.add("最新");
-        titleList.add("秀场");
-    }
 
     @Override
     protected void initView() {
         addFrag();
+        addDialog();
     }
+
 
     @Override
     protected int getLayoutRes() {
@@ -111,4 +102,28 @@ public class MainFragment extends BaseFragment {
                 break;
         }
     }
+
+
+
+
+    private void addFrag() {
+        baseFragmentList = new ArrayList<>();
+        titleList = new ArrayList<>();
+        baseFragmentList.add(AttentionFragment.newInstance());
+        baseFragmentList.add(HotFragment.newInstance());
+        baseFragmentList.add(NewestFragment.newInstance());
+        baseFragmentList.add(ShowHouseFragment.newInstance());
+
+        titleList.add("关注");
+        titleList.add("热门");
+        titleList.add("最新");
+        titleList.add("秀场");
+    }
+
+    private void addDialog() {
+        MainDialog mainDialog=new MainDialog(getContext());
+        FragmentManager fragmentManager = getFragmentManager();
+        mainDialog.show(fragmentManager,"11");
+    }
+
 }

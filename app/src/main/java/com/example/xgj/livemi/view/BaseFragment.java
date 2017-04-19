@@ -47,6 +47,8 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+//        RefWatcher refWatcher = MyApp.getRefWatcher();
+//        refWatcher.watch(this);
     }
 
     protected abstract void initListener();
