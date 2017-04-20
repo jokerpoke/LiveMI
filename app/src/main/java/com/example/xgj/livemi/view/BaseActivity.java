@@ -8,14 +8,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.xgj.livemi.utils.MyApp;
-import com.squareup.leakcanary.RefWatcher;
+import com.example.xgj.livemi.R;
 
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private TextView tv_titile;
+    private TextView tv_title_status;
     private ImageView iv_back;
     private ImageView iv_search;
 
@@ -39,30 +38,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    //    protected void setUpActionBarView() {
-    //        tv_titile = (TextView) findViewById(R.id.tv_title);
-    //        iv_back = (ImageView) findViewById(R.id.iv_back);
-    //        iv_search = (ImageView) findViewById(R.id.iv_search);
-    //        //设置标题
-    //        if (tv_titile != null) {
-    //            tv_titile.setText(initTitle(resId1) == null ? "" : initTitle(resId1));
-    //        }
-    //        //设置返回按钮
-    //        if (iv_back != null && iv_back.getVisibility() == View.VISIBLE) {
-    //            iv_back.setOnClickListener(new View.OnClickListener() {
-    //                @Override
-    //                public void onClick(View v) {
-    //                    finish();
-    //                }
-    //            });
-    //        }
-    //    }
+    protected void setUpActionBarView() {
+        tv_title_status = (TextView) findViewById(R.id.tv_title_status);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_search = (ImageView) findViewById(R.id.iv_search);
+        //设置标题
+        if (tv_title_status != null) {
+            tv_title_status.setText(initTitle() == null ? "" : initTitle());
+        }
+        //设置返回按钮
+        if (iv_back != null && iv_back.getVisibility() == View.VISIBLE) {
+            iv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
 
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        //        setUpActionBarView();
+        setUpActionBarView();
         init();
     }
 
@@ -85,13 +84,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = MyApp.getRefWatcher();
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = MyApp.getRefWatcher();
+//        refWatcher.watch(this);
     }
 
     protected abstract Object getLayoutResIdOrView();
 
-    protected abstract String initTitle(int resId);
+    protected abstract String initTitle();
 
     protected abstract void onActivityPrepared();
 

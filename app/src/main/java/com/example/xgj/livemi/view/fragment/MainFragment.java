@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.adapter.MainTabAdapter;
 import com.example.xgj.livemi.view.BaseFragment;
+import com.example.xgj.livemi.view.ui.SearchActivity;
 import com.example.xgj.livemi.view.weight.MainDialog;
 
 import java.util.ArrayList;
@@ -97,13 +98,12 @@ public class MainFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_search:
+                SearchActivity.startToActivity(getContext());
                 break;
             case R.id.iv_email:
                 break;
         }
     }
-
-
 
 
     private void addFrag() {
@@ -121,9 +121,9 @@ public class MainFragment extends BaseFragment {
     }
 
     private void addDialog() {
-        MainDialog mainDialog=new MainDialog(getContext());
+        MainDialog mainDialog = new MainDialog(getContext());
         FragmentManager fragmentManager = getFragmentManager();
-        mainDialog.show(fragmentManager,"11");
+        mainDialog.show(fragmentManager, "11");
     }
 
 }

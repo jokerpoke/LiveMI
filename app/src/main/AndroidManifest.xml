@@ -24,6 +24,14 @@
         </activity>
         <activity android:name=".view.ui.SearchActivity">
         </activity>
+        <activity android:name=".view.ui.MyDynamicStateActivity">
+        </activity>
+        <activity android:name=".view.ui.MyAccountActivity">
+        </activity>
+        <activity android:name=".view.ui.ContactusActivity">
+        </activity>
+        <activity android:name=".view.ui.RegistActivity">
+        </activity>
     </application>
 
 </manifest>

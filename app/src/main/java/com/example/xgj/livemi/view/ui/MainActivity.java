@@ -48,9 +48,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected String initTitle(int resId) {
+    protected String initTitle() {
         return null;
     }
+
+
 
     @Override
     protected void onActivityPrepared() {

@@ -1,6 +1,7 @@
 package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -36,9 +37,10 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    protected String initTitle(int resId) {
+    protected String initTitle() {
         return null;
     }
+
 
     @Override
     protected void onActivityPrepared() {
@@ -114,7 +116,14 @@ public class SearchActivity extends BaseActivity {
                 break;
 
             case R.id.tv_search:
+                //请求搜索
+
                 break;
         }
+    }
+
+    public static void startToActivity(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        context.startActivity(intent);
     }
 }
