@@ -2,6 +2,8 @@ package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xgj.livemi.R;
+import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
 
 import butterknife.BindView;
@@ -17,10 +20,7 @@ import butterknife.OnClick;
 public class RegistActivity extends BaseActivity {
 
 
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.tv_title_status)
-    TextView tvTitleStatus;
+
     @BindView(R.id.et_phone)
     EditText etPhone;
     @BindView(R.id.et_QQnumber)
@@ -35,6 +35,8 @@ public class RegistActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.btn_submit)
     Button btnSubmit;
+
+    private Boolean showPassword = true;
 
     @Override
     protected Object getLayoutResIdOrView() {
@@ -76,20 +78,26 @@ public class RegistActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_pwdstatus:
-//                if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-//                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-//                    Toast.makeText(this, "nihao", Toast.LENGTH_SHORT).show();
-//                } else if (etPassword.getInputType() == InputType.TYPE_CLASS_TEXT) {
-//                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//                    Toast.makeText(this, "buhai ", Toast.LENGTH_SHORT).show();
-//
-//                }
+                if (showPassword) {//显示密码
+                    showPassword = !showPassword;
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    etPassword.setSelection(etPassword.getText().toString().length());
+                } else {//隐藏密码
+                    showPassword = !showPassword;
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    etPassword.setSelection(etPassword.getText().toString().length());
+                }
+
                 break;
             case R.id.btn_submit:
                 //提交数据,判断各个数据是否都正常，如长度等
-                //                if (!TextUtils.isEmpty(etPhone.getText())&&etPhone.getText().equals("")){
-                //                etPhone.getText().length()
-                break;
+                //                                if (!TextUtils.isEmpty(etPhone.getText())&&etPhone.getText().equals("")){
+                if(etPhone.getText().length() > 4){
+                    ShowToastUtils.showToast(this,"hh");
+
+            }
+
+            break;
         }
     }
 }

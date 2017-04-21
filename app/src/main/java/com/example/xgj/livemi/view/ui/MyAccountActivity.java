@@ -16,10 +16,7 @@ import butterknife.OnClick;
 
 public class MyAccountActivity extends BaseActivity {
 
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.tv_title_status)
-    TextView tvTitleStatus;
+
     @BindView(R.id.tv_moneyNum)
     TextView tvMoneyNum;
     @BindView(R.id.tv_vip)

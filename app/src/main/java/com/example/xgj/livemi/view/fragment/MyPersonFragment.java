@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.view.BaseFragment;
+import com.example.xgj.livemi.view.ui.ContactusActivity;
+import com.example.xgj.livemi.view.ui.EarningActivity;
 import com.example.xgj.livemi.view.ui.MyAccountActivity;
 import com.example.xgj.livemi.view.ui.RegistActivity;
 import com.example.xgj.livemi.view.ui.SearchActivity;
@@ -120,10 +122,12 @@ public class MyPersonFragment extends BaseFragment {
                 RegistActivity.startToActivity(getContext());
                 break;
             case R.id.rl_myearning:
+                EarningActivity.startToActivity(getContext());
                 break;
-            case R.id.rl_lately:
+            case R.id.rl_lately://最近访客,跳转钱要先判断有没人数据，没有就弹toast，有才跳转到界面
                 break;
             case R.id.rl_service:
+                ContactusActivity.startToActivity(getContext());
                 break;
         }
     }
