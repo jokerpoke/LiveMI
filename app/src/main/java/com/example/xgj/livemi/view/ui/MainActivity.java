@@ -3,6 +3,7 @@ package com.example.xgj.livemi.view.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xgj.livemi.R;
+import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
 import com.example.xgj.livemi.view.fragment.MainFragment;
 import com.example.xgj.livemi.view.fragment.MyPersonFragment;
@@ -30,6 +32,8 @@ public class MainActivity extends BaseActivity {
     LinearLayout llBottom;
     @BindView(R.id.iv_live)
     ImageView ivLive;
+
+    private long preTime;
 
     private MainFragment mainFragment;
     private MyPersonFragment myPersonFragment;
@@ -157,6 +161,23 @@ public class MainActivity extends BaseActivity {
                 tvMyinfo.setSelected(true);
                 break;
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        //如果用户按的是返回键
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            if(System.currentTimeMillis()-preTime>3000) {
+                ShowToastUtils.showToast(this,"在按一次返回键退出!");
+                preTime = System.currentTimeMillis();
+            }else{
+                finishAffinity();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public static void startToActivity(Context context) {

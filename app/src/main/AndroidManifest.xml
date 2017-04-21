@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".view.ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".view.ui.PrepareActivity">
         </activity>
@@ -33,6 +29,13 @@
         <activity android:name=".view.ui.RegistActivity">
         </activity>
         <activity android:name=".view.ui.EarningActivity">
+        </activity>
+        <activity android:name=".view.ui.PlayActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

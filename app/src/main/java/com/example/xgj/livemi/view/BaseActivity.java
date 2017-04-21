@@ -18,6 +18,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView iv_back;
     private ImageView iv_search;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         onActivityPrepared();
 
     }
+
+
 
     @Override
     protected void onDestroy() {

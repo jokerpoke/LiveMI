@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 /**
@@ -12,7 +13,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 public class MyApp extends Application {
     public static MyApp mMyApp;
-    private RefWatcher _refWatcher;
+    private RefWatcher refWatcher;
 
     private Context mContext;
 
@@ -25,7 +26,7 @@ public class MyApp extends Application {
         this.mMyApp = this;
         mContext = this;
         initGson();
-//        LeakCanary.install(this);
+        refWatcher = LeakCanary.install(this);
     }
 
     private void initGson() {
@@ -40,7 +41,7 @@ public class MyApp extends Application {
     }
 
     public static RefWatcher getRefWatcher() {
-        return MyApp.getmMyApp()._refWatcher;
+        return MyApp.getmMyApp().refWatcher;
     }
 
     public static MyApp getmMyApp() {
