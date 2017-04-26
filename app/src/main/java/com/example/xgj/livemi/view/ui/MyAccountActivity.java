@@ -1,6 +1,5 @@
 package com.example.xgj.livemi.view.ui;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -42,7 +41,7 @@ public class MyAccountActivity extends BaseActivity {
     @BindView(R.id.tv_contactus)
     TextView tvContactus;
     private PayDialog payDialog;
-    FragmentManager fragmentManager = getFragmentManager();
+    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
 
 
@@ -162,4 +161,10 @@ public class MyAccountActivity extends BaseActivity {
         Intent intent = new Intent(context, MyAccountActivity.class);
         context.startActivity(intent);
     }
+//
+//    public static void startToActivityFromDialog(Context context) {
+//        Intent intent = new Intent(context, MyAccountActivity.class);
+//        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
+//    }
 }

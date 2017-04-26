@@ -1,8 +1,9 @@
 package com.example.xgj.livemi.view.ui;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -16,9 +17,16 @@ import android.widget.VideoView;
 
 import com.alibaba.view.BubblingView;
 import com.example.xgj.livemi.R;
+import com.example.xgj.livemi.entity.PlayGiftEntity;
 import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
-import com.example.xgj.livemi.view.weight.PlayAnchorInfo;
+import com.example.xgj.livemi.view.weight.PlayAnchorInfoDialog;
+import com.example.xgj.livemi.view.weight.PlayGiftDialog;
+import com.example.xgj.livemi.view.weight.PlayInputDialog;
+import com.example.xgj.livemi.view.weight.PrivatePlayDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,7 +53,7 @@ public class PlayActivity extends BaseActivity {
     @BindView(R.id.iv_share)
     ImageView ivShare;
     @BindView(R.id.iv_privateLive)
-    ImageView ivPrivateLive;
+    ImageView ivPrivateLive;//私播
     @BindView(R.id.iv_zan)
     ImageView ivZan;
     @BindView(R.id.bubbling_view)
@@ -81,8 +89,14 @@ public class PlayActivity extends BaseActivity {
             R.drawable.heart7,
             R.drawable.heart8
     };
-    private PlayAnchorInfo playAnchorInfo;
+    private PlayAnchorInfoDialog playAnchorInfo;
+    private PrivatePlayDialog privatePlayDialog;
+    private PlayInputDialog playInputDialog;
+    private PlayGiftDialog playGiftDialog;
+    private android.support.v4.app.FragmentManager fragmentManager;
 
+
+    Fragment fragment = new Fragment();
 
     @Override
     protected Object getLayoutResIdOrView() {
@@ -106,7 +120,12 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        playAnchorInfo = new PlayAnchorInfo();
+        playAnchorInfo = new PlayAnchorInfoDialog();
+        privatePlayDialog = new PrivatePlayDialog();
+        playInputDialog = new PlayInputDialog();
+
+        fragmentManager = getSupportFragmentManager();
+
     }
 
     @Override
@@ -123,16 +142,20 @@ public class PlayActivity extends BaseActivity {
 
     @OnClick({R.id.iv_anchorInfo, R.id.iv_close, R.id.iv_gift, R.id.iv_sendmessage, R.id.iv_share,
             R.id.iv_privateLive, R.id.iv_zan
-            , R.id.iv_hide_input, R.id.tv_send, R.id.iv_isShow_tanmu})
+            , R.id.iv_hide_input, R.id.tv_send, R.id.iv_isShow_tanmu, R.id.et_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_anchorInfo:
-                initDialog();
+                initAnthorDialog();
                 break;
             case R.id.iv_close:
                 finish();
                 break;
             case R.id.iv_gift:
+
+                addDatas();
+                initPlayGiftDialog();
+
                 break;
             case R.id.iv_sendmessage:
                 if (rl_message_input.getVisibility() == View.GONE) {
@@ -143,6 +166,7 @@ public class PlayActivity extends BaseActivity {
             case R.id.iv_share:
                 break;
             case R.id.iv_privateLive:
+
                 break;
             case R.id.iv_zan:
                 bubblingView.addBubblingItem(images[i++ % 5]);
@@ -151,6 +175,9 @@ public class PlayActivity extends BaseActivity {
                 rl_message_input.setVisibility(View.GONE);
                 break;
             case R.id.tv_send:
+                //存在一个判断，当前用户是否够资格去发送评论
+                iniPlayInput();//当不够资格是弹出这个弹窗
+
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et_message.getWindowToken(), 0);
@@ -167,17 +194,36 @@ public class PlayActivity extends BaseActivity {
                     iv_isShow_tanmu.setImageResource(R.mipmap.ic_launcher);
                 }
                 break;
+            case R.id.et_message:
+                et_message.requestFocus();
+                InputMethodManager systemService = (InputMethodManager) et_message.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                systemService.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                break;
         }
     }
+
+
+    /**
+     * 初始化私播dialog
+     */
+    public void initPrivatePlay() {
+        privatePlayDialog.show(fragmentManager, "iv_privateLive");
+        privatePlayDialog.setPriPlayCallBack(new PrivatePlayDialog.PriPlayCallBack() {
+            @Override
+            public void Dredge() {
+
+            }
+        });
+    }
+
 
     /**
      * 初始化主播信息dialog
      */
-    private void initDialog() {
-        FragmentManager fragmentManager = getFragmentManager();
+    private void initAnthorDialog() {
 
         playAnchorInfo.show(fragmentManager, "iv_anchorInfo");
-        playAnchorInfo.setOnListenCallBcak(new PlayAnchorInfo.OnListenCallBcak() {
+        playAnchorInfo.setOnListenCallBcak(new PlayAnchorInfoDialog.OnListenCallBcak() {
             @Override
             public void addAeetntion() {
                 //请求接口
@@ -190,5 +236,45 @@ public class PlayActivity extends BaseActivity {
             }
         });
     }
+
+    /**
+     * 初始化发送弹幕dialog，当等级不够时弹出该提示
+     */
+    private void iniPlayInput() {
+        playInputDialog.show(fragmentManager, "tv_send");
+    }
+
+    /**
+     * 初始化礼物dialog，
+     */
+    private void initPlayGiftDialog() {
+        playGiftDialog.show(fragmentManager, "iv_gift");
+        playGiftDialog.setPlayGiftDialogCallBack(new PlayGiftDialog.PlayGiftDialogCallBack() {
+            @Override
+            public void rechargeMoney() {
+                MyAccountActivity.startToActivity(PlayActivity.this);
+            }
+        });
+    }
+
+
+    private List<PlayGiftEntity> playGiftEntityList;
+    //添加数据
+    private void addDatas() {
+//        if (playGiftEntityList == null) {
+            playGiftEntityList = new ArrayList<>();
+//        }
+        for (int i = 0; i < 20; i++) {
+            PlayGiftEntity playGiftEntity = new PlayGiftEntity();
+            playGiftEntity.setImageUrl("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=638821036,169960006&fm=23&gp=0.jpg");
+            playGiftEntity.setPrice("1" + i);
+            playGiftEntity.setShopName("哇哈哈" + i + "啦啦啦");
+            playGiftEntityList.add(playGiftEntity);
+        }
+        Log.d("11", "addDatas: "+playGiftEntityList.size());
+        playGiftDialog = new PlayGiftDialog(playGiftEntityList);
+    }
+
+
 
 }

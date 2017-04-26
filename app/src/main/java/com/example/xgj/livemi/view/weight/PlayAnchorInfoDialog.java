@@ -1,11 +1,12 @@
 package com.example.xgj.livemi.view.weight;
 
-import android.app.DialogFragment;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by chen on 2017/4/21.
  */
 
-public class PlayAnchorInfo extends DialogFragment implements View.OnTouchListener, View.OnClickListener {
+public class PlayAnchorInfoDialog extends DialogFragment implements View.OnTouchListener, View.OnClickListener {
     private View view;
 
 
