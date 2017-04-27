@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,7 +13,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.entity.PlayGiftEntity;
 import com.example.xgj.livemi.utils.GlideUtil;
-import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseFragment;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class PlayGiftFragment extends BaseFragment {
     @SuppressLint("ValidFragment")
     public PlayGiftFragment(List<PlayGiftEntity> playGiftEntityList) {
         this.playGiftEntityList = playGiftEntityList;
-        Log.d("11", "initView构造 " + playGiftEntityList.size());
+        //        Log.d("11", "initView构造 " + playGiftEntityList.size());
     }
 
 
@@ -57,8 +55,8 @@ public class PlayGiftFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_base:
-//                        playGiftFragmentCallBack.changeVPpgae();
-                        ShowToastUtils.showToast(getContext(), "啦啦啦"+position+"=");
+                        playGiftFragmentCallBack.changeVPpgae(position);
+//                        ShowToastUtils.showToast(getContext(), "啦啦啦" + position + "=");
                 }
             }
         });
@@ -115,8 +113,8 @@ public class PlayGiftFragment extends BaseFragment {
         }
     }
 
-    public interface PlayGiftFragmentCallBack{
-        void changeVPpgae();
+    public interface PlayGiftFragmentCallBack {
+        void changeVPpgae(int positionPGF);
     }
 
 

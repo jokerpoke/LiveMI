@@ -2,7 +2,6 @@ package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,8 +17,10 @@ import android.widget.VideoView;
 import com.alibaba.view.BubblingView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.entity.PlayGiftEntity;
+import com.example.xgj.livemi.utils.MyApp;
 import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
+import com.example.xgj.livemi.view.weight.PayDialog;
 import com.example.xgj.livemi.view.weight.PlayAnchorInfoDialog;
 import com.example.xgj.livemi.view.weight.PlayGiftDialog;
 import com.example.xgj.livemi.view.weight.PlayInputDialog;
@@ -93,10 +94,9 @@ public class PlayActivity extends BaseActivity {
     private PrivatePlayDialog privatePlayDialog;
     private PlayInputDialog playInputDialog;
     private PlayGiftDialog playGiftDialog;
+    private PayDialog payDialog;
     private android.support.v4.app.FragmentManager fragmentManager;
 
-
-    Fragment fragment = new Fragment();
 
     @Override
     protected Object getLayoutResIdOrView() {
@@ -123,7 +123,7 @@ public class PlayActivity extends BaseActivity {
         playAnchorInfo = new PlayAnchorInfoDialog();
         privatePlayDialog = new PrivatePlayDialog();
         playInputDialog = new PlayInputDialog();
-
+        payDialog = new PayDialog();
         fragmentManager = getSupportFragmentManager();
 
     }
@@ -164,9 +164,10 @@ public class PlayActivity extends BaseActivity {
 
                 break;
             case R.id.iv_share:
+                MyApp.getmMyApp().initShareSdk();
                 break;
             case R.id.iv_privateLive:
-
+                initPrivatePlay();
                 break;
             case R.id.iv_zan:
                 bubblingView.addBubblingItem(images[i++ % 5]);
@@ -211,6 +212,24 @@ public class PlayActivity extends BaseActivity {
         privatePlayDialog.setPriPlayCallBack(new PrivatePlayDialog.PriPlayCallBack() {
             @Override
             public void Dredge() {
+                initPayDialog();
+            }
+        });
+    }
+
+    /**
+     * 支付dialog
+     */
+    private void initPayDialog() {
+        payDialog.show(fragmentManager,"iv_privateLive");
+        payDialog.setPayDialogCallBack(new PayDialog.PayDialogCallBack() {
+            @Override
+            public void payWeChat() {
+
+            }
+
+            @Override
+            public void payAli() {
 
             }
         });
@@ -259,11 +278,12 @@ public class PlayActivity extends BaseActivity {
 
 
     private List<PlayGiftEntity> playGiftEntityList;
+
     //添加数据
     private void addDatas() {
-//        if (playGiftEntityList == null) {
-            playGiftEntityList = new ArrayList<>();
-//        }
+        //        if (playGiftEntityList == null) {
+        playGiftEntityList = new ArrayList<>();
+        //        }
         for (int i = 0; i < 20; i++) {
             PlayGiftEntity playGiftEntity = new PlayGiftEntity();
             playGiftEntity.setImageUrl("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=638821036,169960006&fm=23&gp=0.jpg");
@@ -271,10 +291,9 @@ public class PlayActivity extends BaseActivity {
             playGiftEntity.setShopName("哇哈哈" + i + "啦啦啦");
             playGiftEntityList.add(playGiftEntity);
         }
-        Log.d("11", "addDatas: "+playGiftEntityList.size());
+        Log.d("11", "addDatas: " + playGiftEntityList.size());
         playGiftDialog = new PlayGiftDialog(playGiftEntityList);
     }
-
 
 
 }

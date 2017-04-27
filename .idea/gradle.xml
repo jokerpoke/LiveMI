@@ -10,9 +10,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelpe" />
+            <option value="$PROJECT_DIR$/LiveView-master-master" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bubblinganimationview" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/material-spinner-1.0.5" />
+            <option value="$PROJECT_DIR$/videoviewdemo" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

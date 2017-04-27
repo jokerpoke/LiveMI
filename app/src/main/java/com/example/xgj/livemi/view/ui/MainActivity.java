@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.iv_live:
-                PrepareActivity.startToActivity(this);
+                ParperPlayActivity.startToActivity(this);
                 break;
         }
     }

@@ -1,1 +1,1 @@
-include ':app', ':material-spinner-1.0.5', ':library', ':BaseRecyclerViewAdapterHelpe'
+include ':app', ':material-spinner-1.0.5', ':library', ':BaseRecyclerViewAdapterHelpe', ':videoviewdemo', ':bubblinganimationview', ':LiveView-master-master'

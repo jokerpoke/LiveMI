@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.xgj.livemi.R;
 
@@ -27,6 +29,9 @@ public class PrivatePlayDialog extends DialogFragment implements View.OnClickLis
     private ImageView ivImg1;
     private LinearLayout llText;
     private ImageView ivDredge;
+
+    private LinearLayout ll_dialogbg;
+    private RelativeLayout rl_base;
 
     private PriPlayCallBack priPlayCallBack;
 
@@ -53,10 +58,30 @@ public class PrivatePlayDialog extends DialogFragment implements View.OnClickLis
         ivImg1 = (ImageView) view.findViewById(R.id.iv_img1);
         llText = (LinearLayout) view.findViewById(R.id.ll_text);
         ivDredge = (ImageView) view.findViewById(R.id.iv_dredge);
+        rl_base= (RelativeLayout) view.findViewById(R.id.rl_base);
+        ll_dialogbg= (LinearLayout) view.findViewById(R.id.ll_dialogbg);
 
         ivDredge.setOnClickListener(this);
         ivClose.setOnClickListener(this);
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        rl_base.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int top = ll_dialogbg.getTop();
+                int bottom = ll_dialogbg.getBottom();
+//                int right = ll_dialogbg.getRight();
+//                int left = ll_dialogbg.getLeft();
+                int touchY = (int) event.getY();
+                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                    if (touchY>bottom||touchY<top){
+                        dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+
+        return view;
     }
 
     @Override

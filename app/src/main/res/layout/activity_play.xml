@@ -123,12 +123,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:visibility="gone"
             >
 
             <include
                 android:id="@+id/input_message"
                 layout="@layout/play_input"
-                android:visibility="gone"
+
                 />
         </LinearLayout>
 

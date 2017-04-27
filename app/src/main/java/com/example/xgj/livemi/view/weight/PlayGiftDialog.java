@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.adapter.PlayGiftVpAdapter;
 import com.example.xgj.livemi.entity.PlayGiftEntity;
+import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseFragment;
 import com.example.xgj.livemi.view.fragment.PlayGiftFragment;
 
@@ -51,7 +51,8 @@ public class PlayGiftDialog extends DialogFragment {
 
     private PlayGiftDialogCallBack playGiftDialogCallBack;
 
-    private  PlayGiftFragment playGiftFragment;
+
+    private PlayGiftFragment playGiftFragment;
 
     public void setPlayGiftDialogCallBack(PlayGiftDialogCallBack playGiftDialogCallBack) {
         this.playGiftDialogCallBack = playGiftDialogCallBack;
@@ -120,8 +121,8 @@ public class PlayGiftDialog extends DialogFragment {
         int pointNum = 0;
 
 
-        int fragNum = playGiftEntityList.size() / 8;
-        int fragMaybeNum = playGiftEntityList.size() % 8;
+        int fragNum = playGiftEntityList.size() / 8;//每页有8个数据的有几页
+        int fragMaybeNum = playGiftEntityList.size() % 8;//最后一页有无数据的判断，或者未满8个时
         if (fragNum == 0 || fragMaybeNum == 0) {
             //没数据，没礼物显示
         } else if (fragNum == 0 && fragMaybeNum > 0) {
@@ -133,15 +134,33 @@ public class PlayGiftDialog extends DialogFragment {
             for (int aa = 0; aa < fragNum; aa++) {
                 if (startIndex > playGiftEntityList.size()) {
                     return;
-                } else if ((startIndex + 8) > playGiftEntityList.size() && startIndex < playGiftEntityList.size()) {
+                } else if ((startIndex + 8) > playGiftEntityList.size() && startIndex < playGiftEntityList.size()) {//最后一页数据的处理
                     List<PlayGiftEntity> playGiftEntities = playGiftEntityList.subList(startIndex, playGiftEntityList.size());
-                     playGiftFragment = new PlayGiftFragment(playGiftEntities);
+                    playGiftFragment = new PlayGiftFragment(playGiftEntities);
+
+                    playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
+                        @Override
+                        public void changeVPpgae(int positionPGF) {
+                            int realPosition = currPoint * 8 + positionPGF;
+                            String imageUrl = playGiftEntityList.get(realPosition).getImageUrl();
+                            ShowToastUtils.showToast(getContext(), "kkkkkk===" + "===" + imageUrl);
+                        }
+                    });
 
                     listFragment.add(playGiftFragment);
 
                 } else {
                     List<PlayGiftEntity> playGiftEntities = playGiftEntityList.subList(startIndex, startIndex + 8);
-                     playGiftFragment = new PlayGiftFragment(playGiftEntities);
+                    playGiftFragment = new PlayGiftFragment(playGiftEntities);
+
+                    playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
+                        @Override
+                        public void changeVPpgae(int positionPGF) {
+                            int realPosition = currPoint * 8 + positionPGF;
+                            String imageUrl = playGiftEntityList.get(realPosition).getShopName();
+                            ShowToastUtils.showToast(getContext(), "kkkkkk===" + "===" + imageUrl);
+                        }
+                    });
 
                     listFragment.add(playGiftFragment);
                     //改变下次的起始位置，可以直接加8
@@ -149,7 +168,10 @@ public class PlayGiftDialog extends DialogFragment {
                 }
 
             }
+
             pointNum = fragNum;
+
+
         } else if (fragNum > 0 && fragMaybeNum > 0)
 
         {
@@ -157,16 +179,32 @@ public class PlayGiftDialog extends DialogFragment {
             for (int aa = 0; aa < fragNum + 1; aa++) {
                 if (startIndex > playGiftEntityList.size()) {
                     return;
-                } else if ((startIndex + 8) > playGiftEntityList.size() && startIndex < playGiftEntityList.size()) {
+                } else if ((startIndex + 8) > playGiftEntityList.size() && startIndex < playGiftEntityList.size()) {//最后一页数据的处理
                     List<PlayGiftEntity> playGiftEntities = playGiftEntityList.subList(startIndex, playGiftEntityList.size());
-                     playGiftFragment = new PlayGiftFragment(playGiftEntities);
+                    playGiftFragment = new PlayGiftFragment(playGiftEntities);
+
+                    playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
+                        @Override
+                        public void changeVPpgae(int positionPGF) {
+                            int realPosition = currPoint * 8 + positionPGF;
+                            ShowToastUtils.showToast(getContext(), "kkkkkk===" + "===" + playGiftEntityList.get(realPosition).getPrice());
+                        }
+                    });
 
                     listFragment.add(playGiftFragment);
                     //
                 } else {
                     List<PlayGiftEntity> playGiftEntities = playGiftEntityList.subList(startIndex, startIndex + 8);
-                     playGiftFragment = new PlayGiftFragment(playGiftEntities);
+                    playGiftFragment = new PlayGiftFragment(playGiftEntities);
 
+                    playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
+                        @Override
+                        public void changeVPpgae(int positionPGF) {
+                            int realPosition = currPoint * 8 + positionPGF;
+                            String imageUrl = playGiftEntityList.get(realPosition).getShopName();
+                            ShowToastUtils.showToast(getContext(), "kkkkkk===" + "===" + imageUrl);
+                        }
+                    });
                     listFragment.add(playGiftFragment);
                     //改变下次的起始位置，可以直接加8
                     startIndex = startIndex + 8;
@@ -174,12 +212,14 @@ public class PlayGiftDialog extends DialogFragment {
 
             }
             pointNum = fragNum + 1;
+
+
         }
         adapter = new PlayGiftVpAdapter(getChildFragmentManager(), listFragment);//添加页面
         vpGiftId.setAdapter(adapter);
 
         //添加viewpager下面的坐标指示点
-        imageList=new ArrayList<>();
+        imageList = new ArrayList<>();
         for (int x = 0; x < pointNum; x++) {
             imagePoint = new ImageView(getContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -206,21 +246,7 @@ public class PlayGiftDialog extends DialogFragment {
             public void onPageSelected(final int position) {
                 imageList.get(currPoint).setImageResource(R.drawable.heart0);
                 imageList.get(position).setImageResource(R.drawable.heart1);
-                currPoint=position;
-//                playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
-//                    @Override
-//                    public void changeVPpgae(int positionPGF) {
-//                        listFragment.get(position);
-//                        if (position>0){
-//                            int i = positionPGF + 8 * position;
-//                            ShowToastUtils.showToast(getContext(),playGiftEntityList.get(i).getPrice());
-//                        }else if (position==0){
-//                            ShowToastUtils.showToast(getContext(),playGiftEntityList.get(positionPGF).getPrice());
-//                        }
-//
-//
-//                    }
-//                });
+                currPoint = position;
             }
 
             @Override
@@ -229,28 +255,6 @@ public class PlayGiftDialog extends DialogFragment {
             }
         });
 
-        vpGiftId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                playGiftFragment.setPlayGiftFragmentCallBack(new PlayGiftFragment.PlayGiftFragmentCallBack() {
-//                    @Override
-//                    public void changeVPpgae() {
-//                        listFragment.get(currPoint);
-//                        if (currPoint > 0) {
-////                            int i = positionPGF + 8 * currPoint;
-////                            ShowToastUtils.showToast(getContext(), playGiftEntityList.get(i).getPrice());
-//                            ShowToastUtils.showToast(getContext(), "嗒嗒嗒");
-//                        } else if (currPoint == 0) {
-////                            ShowToastUtils.showToast(getContext(), playGiftEntityList.get(positionPGF).getPrice());
-//                        }
-//
-//
-//                    }
-//                });
-                Log.d("11", "onClick: "+currPoint);
-//                ShowToastUtils.showToast(getContext(),""+currPoint);
-            }
-        });
     }
 
     public interface PlayGiftDialogCallBack {
