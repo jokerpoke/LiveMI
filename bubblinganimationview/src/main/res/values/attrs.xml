@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AlivcBubblingView">
+        <attr name="max_child_count" format="integer|reference"/>
+        <attr name="over_mode" format="enum|reference">
+            <enum name="discard" value="1"/>
+            <enum name="delay" value="2"/>
+        </attr>
+        <attr name="delay" format="integer|reference"/>
+    </declare-styleable>
+</resources>
