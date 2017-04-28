@@ -6,4 +6,7 @@
 
 
     <color name="parper_yaoqing_text">#fff</color>
+
+    <color name="parper_play_status">#000</color>//准备播放界面，已经播放完成界面
+
 </resources>

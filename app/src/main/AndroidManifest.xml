@@ -24,7 +24,7 @@
         <activity android:name=".view.ui.MainActivity">
 
         </activity>
-        <activity android:name=".view.ui.PrepareActivity">
+        <activity android:name=".view.ui.PlayOverActivity">
         </activity>
         <activity android:name=".view.ui.LoadingActivity">
         </activity>

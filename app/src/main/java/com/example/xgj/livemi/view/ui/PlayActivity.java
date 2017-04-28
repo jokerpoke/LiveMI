@@ -154,14 +154,23 @@ public class PlayActivity extends BaseActivity {
             }
         });
 
-
         //播放完成的监听
-        //        vvMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-        //            @Override
-        //            public void onCompletion(MediaPlayer mp) {
-        //                mp.stop();
-        //            }
-        //        });
+        vvMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                PlayOverActivity.startToActivity(PlayActivity.this);
+            }
+        });
+
+        //拦截弹出的错误提示
+        vvMedia.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                ShowToastUtils.showToast(PlayActivity.this, "直播间出现异常请重新进入!");
+                return true;//如果设置true就可以防止他弹出错误的提示框！
+            }
+        });
 
     }
 
@@ -393,7 +402,7 @@ public class PlayActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if ((int)SharedPreferencesUtils.get(this, "videoCountTime", -1) > (int)SharedPreferencesUtils.get(this, "videoCurTime", -1)) {
+        if ((int) SharedPreferencesUtils.get(this, "videoCountTime", -1) > (int) SharedPreferencesUtils.get(this, "videoCurTime", -1)) {
             vvMedia.seekTo((Integer) SharedPreferencesUtils.get(PlayActivity.this, "videoCurTime", -1));
         }
     }
