@@ -89,6 +89,7 @@ public class PlayGiftDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 playGiftDialogCallBack.rechargeMoney();
+                dismiss();
             }
         });
 

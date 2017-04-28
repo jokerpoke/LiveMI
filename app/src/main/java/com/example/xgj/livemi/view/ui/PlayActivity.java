@@ -1,6 +1,7 @@
 package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.alibaba.view.BubblingView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.entity.PlayGiftEntity;
 import com.example.xgj.livemi.utils.MyApp;
+import com.example.xgj.livemi.utils.SharedPreferencesUtils;
 import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
 import com.example.xgj.livemi.view.weight.PayDialog;
@@ -75,7 +78,16 @@ public class PlayActivity extends BaseActivity {
     TextView tv_send;//发送按钮
 
 
+    private String videoPath = "http://biggame1.b0.upaiyun.com/video/a9d366a3c18911e631bf9327d458feb9.mp4";
+    //    private boolean fullscreen = false;//全屏/窗口播放切换标志
+
     private boolean ishideTanMu = true;
+
+    private static String TAG = "HH";
+    private int duration;
+    private int currentPosition;
+    private int currentPosition00;
+    private int duration00;
 
 
     int i = 0;
@@ -110,6 +122,46 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void onActivityPrepared() {
+        vvMedia.setVideoPath(videoPath);
+        vvMedia.setMediaController(new MediaController(this));
+        vvMedia.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+                //                currentPosition = mp.getCurrentPosition();
+                int duration = mp.getDuration();
+                SharedPreferencesUtils.put(PlayActivity.this, "videoCountTime", duration);
+                Log.d(TAG, "onPrepared: 视频总时间====" + duration);
+                mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                    @Override
+                    public void onSeekComplete(MediaPlayer mp) {
+                        vvMedia.start();
+                        //                            mp.start();
+                    }
+                });
+
+                //缓冲的监听
+                //                mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                //
+                //                    @Override
+                //                    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                //                        duration00 = vvMedia.getDuration();
+                //                        currentPosition00 = vvMedia.getCurrentPosition();
+                //                    }
+                //                });
+            }
+        });
+
+
+        //播放完成的监听
+        //        vvMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        //            @Override
+        //            public void onCompletion(MediaPlayer mp) {
+        //                mp.stop();
+        //            }
+        //        });
 
     }
 
@@ -120,12 +172,33 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initVideoParemt();
+
         playAnchorInfo = new PlayAnchorInfoDialog();
         privatePlayDialog = new PrivatePlayDialog();
         playInputDialog = new PlayInputDialog();
         payDialog = new PayDialog();
         fragmentManager = getSupportFragmentManager();
 
+
+    }
+
+    private void initVideoParemt() {
+        //        if(!fullscreen){//设置RelativeLayout的全屏模式
+        RelativeLayout.LayoutParams layoutParams =
+                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        vvMedia.setLayoutParams(layoutParams);
+
+        //            fullscreen = true;//改变全屏/窗口的标记
+        //        }else{//设置RelativeLayout的窗口模式
+        //            RelativeLayout.LayoutParams lp=new  RelativeLayout.LayoutParams(320,240);
+        //            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        //            mVideoView01.setLayoutParams(lp);
+        //            fullscreen = false;//改变全屏/窗口的标记
     }
 
     @Override
@@ -221,7 +294,7 @@ public class PlayActivity extends BaseActivity {
      * 支付dialog
      */
     private void initPayDialog() {
-        payDialog.show(fragmentManager,"iv_privateLive");
+        payDialog.show(fragmentManager, "iv_privateLive");
         payDialog.setPayDialogCallBack(new PayDialog.PayDialogCallBack() {
             @Override
             public void payWeChat() {
@@ -296,4 +369,32 @@ public class PlayActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        int currentPosition = vvMedia.getCurrentPosition();
+        Log.d(TAG, "onPause: == vvMedia.currentPosition()==" + vvMedia.getCurrentPosition());
+        Log.d(TAG, "onPause: == vvMedia.getDuration()==" + vvMedia.getDuration());
+        SharedPreferencesUtils.put(this, "videoCurTime", currentPosition);
+        Log.d(TAG, "onPause: " + SharedPreferencesUtils.get(this, "videoCurTime", -1));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if ((int)SharedPreferencesUtils.get(this, "videoCountTime", -1) > (int)SharedPreferencesUtils.get(this, "videoCurTime", -1)) {
+            vvMedia.seekTo((Integer) SharedPreferencesUtils.get(PlayActivity.this, "videoCurTime", -1));
+        }
+    }
 }
