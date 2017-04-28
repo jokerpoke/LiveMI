@@ -1,11 +1,13 @@
 package com.example.xgj.livemi.view.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -112,8 +114,11 @@ public class PlayActivity extends BaseActivity {
     private int videoCurTime;
 
 
+    @SuppressLint("NewApi")
     @Override
     protected Object getLayoutResIdOrView() {
+        getWindow().setEnterTransition(new Explode().setDuration(2000));
+        getWindow().setExitTransition(new Explode().setDuration(2000));
         return R.layout.activity_play;
     }
 
@@ -277,7 +282,6 @@ public class PlayActivity extends BaseActivity {
                 if (rl_message_input.getVisibility() == View.GONE) {
                     rl_message_input.setVisibility(View.VISIBLE);
                 }
-
                 break;
             case R.id.iv_share:
                 MyApp.getmMyApp().initShareSdk();
@@ -416,10 +420,7 @@ public class PlayActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         int currentPosition = vvMedia.getCurrentPosition();
-        //        Log.d(TAG, "onPause: == vvMedia.currentPosition()==" + vvMedia.getCurrentPosition());
-        //        Log.d(TAG, "onPause: == vvMedia.getDuration()==" + vvMedia.getDuration());
         SharedPreferencesUtils.put(this, "videoCurTime", currentPosition);
-        //        Log.d(TAG, "onPause: " + SharedPreferencesUtils.get(this, "videoCurTime", -1));
     }
 
     @Override
