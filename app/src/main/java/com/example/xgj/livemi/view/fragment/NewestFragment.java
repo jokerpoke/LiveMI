@@ -16,6 +16,7 @@ import com.example.xgj.livemi.adapter.NewestFragmentAdapter;
 import com.example.xgj.livemi.entity.NewestEntity;
 import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseFragment;
+import com.example.xgj.livemi.view.ui.PlayActivity;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
@@ -86,7 +87,8 @@ public class NewestFragment extends BaseFragment {
                         ShowToastUtils.showToast(getContext(), "lallal");
                         break;
                     case R.id.rl_base:
-                        ShowToastUtils.showToast(getContext(), item.getStatus());
+                        PlayActivity.startToActivity(getContext());
+//                        ShowToastUtils.showToast(getContext(), item.getStatus());
                         break;
 
                 }

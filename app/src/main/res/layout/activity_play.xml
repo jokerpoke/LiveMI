@@ -7,45 +7,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.xgj.livemi.view.ui.PlayActivity">
 
-    <FrameLayout
-        android:id="@+id/fl_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        >
 
-        <ImageView
-            android:id="@+id/iv_bguser"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#3000">
-
-            <ProgressBar
-                android:id="@+id/pb_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pb_bar"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="主播正在赶来..."/>
-        </RelativeLayout>
-    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/rl_live"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
 
         <VideoView
@@ -134,4 +102,39 @@
         </LinearLayout>
 
     </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fl_bg"
+        android:background="#000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <ImageView
+            android:id="@+id/iv_bguser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#3000">
+
+            <ProgressBar
+                android:id="@+id/pb_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pb_bar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="主播正在赶来..."/>
+        </RelativeLayout>
+    </FrameLayout>
 </FrameLayout>

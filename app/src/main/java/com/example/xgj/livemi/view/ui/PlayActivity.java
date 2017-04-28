@@ -1,9 +1,13 @@
 package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Handler;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -19,6 +23,7 @@ import android.widget.VideoView;
 import com.alibaba.view.BubblingView;
 import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.entity.PlayGiftEntity;
+import com.example.xgj.livemi.utils.LogsUtils;
 import com.example.xgj.livemi.utils.MyApp;
 import com.example.xgj.livemi.utils.SharedPreferencesUtils;
 import com.example.xgj.livemi.utils.ShowToastUtils;
@@ -84,10 +89,6 @@ public class PlayActivity extends BaseActivity {
     private boolean ishideTanMu = true;
 
     private static String TAG = "HH";
-    private int duration;
-    private int currentPosition;
-    private int currentPosition00;
-    private int duration00;
 
 
     int i = 0;
@@ -108,6 +109,7 @@ public class PlayActivity extends BaseActivity {
     private PlayGiftDialog playGiftDialog;
     private PayDialog payDialog;
     private android.support.v4.app.FragmentManager fragmentManager;
+    private int videoCurTime;
 
 
     @Override
@@ -122,23 +124,31 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void onActivityPrepared() {
-        vvMedia.setVideoPath(videoPath);
+        vvMedia.setVideoURI(Uri.parse(videoPath));
         vvMedia.setMediaController(new MediaController(this));
         vvMedia.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
 
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
-                //                currentPosition = mp.getCurrentPosition();
+                if (mp.isPlaying()) {
+                    flBg.setVisibility(View.GONE);
+                    LogsUtils.d("222", "onPrepared===" + videoCurTime);
+                    if ((videoCurTime) > 1000) {//保存的时长大于一秒
+                        vvMedia.seekTo(videoCurTime);
+                    }
+                }
+
                 int duration = mp.getDuration();
                 SharedPreferencesUtils.put(PlayActivity.this, "videoCountTime", duration);
-                Log.d(TAG, "onPrepared: 视频总时间====" + duration);
+
+
+                //                Log.d(TAG, "onPrepared: 视频总时间====" + duration);
                 mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                     @Override
                     public void onSeekComplete(MediaPlayer mp) {
                         vvMedia.start();
-                        //                            mp.start();
+                        mp.start();
                     }
                 });
 
@@ -162,11 +172,33 @@ public class PlayActivity extends BaseActivity {
                 PlayOverActivity.startToActivity(PlayActivity.this);
             }
         });
-
+        //
         //拦截弹出的错误提示
         vvMedia.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(PlayActivity.this);
+                dialog.setCancelable(false);
+                dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {//让返回键消失，不取消dialog
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+                dialog.setTitle("提示");
+                dialog.setMessage("网络状况出现异常，请重新进入房间！");
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PlayActivity.startToActivity(PlayActivity.this);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.create().show();
                 ShowToastUtils.showToast(PlayActivity.this, "直播间出现异常请重新进入!");
                 return true;//如果设置true就可以防止他弹出错误的提示框！
             }
@@ -189,7 +221,9 @@ public class PlayActivity extends BaseActivity {
         payDialog = new PayDialog();
         fragmentManager = getSupportFragmentManager();
 
-
+        //        videoCurTime = (int) SharedPreferencesUtils.get(PlayActivity.this, "videoCurTime", -1);
+        //
+        //        LogsUtils.d("123","onPrepared=1111"+videoCurTime);
     }
 
     private void initVideoParemt() {
@@ -212,13 +246,13 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                flBg.setVisibility(View.GONE);
-                rlLive.setVisibility(View.VISIBLE);
-            }
-        }, 2000);
+        //        new Handler().postDelayed(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                flBg.setVisibility(View.GONE);
+        //                rlLive.setVisibility(View.VISIBLE);
+        //            }
+        //        }, 2000);
     }
 
 
@@ -379,31 +413,29 @@ public class PlayActivity extends BaseActivity {
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //        Log.d(TAG, "onDestroy: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         int currentPosition = vvMedia.getCurrentPosition();
-        Log.d(TAG, "onPause: == vvMedia.currentPosition()==" + vvMedia.getCurrentPosition());
-        Log.d(TAG, "onPause: == vvMedia.getDuration()==" + vvMedia.getDuration());
+        //        Log.d(TAG, "onPause: == vvMedia.currentPosition()==" + vvMedia.getCurrentPosition());
+        //        Log.d(TAG, "onPause: == vvMedia.getDuration()==" + vvMedia.getDuration());
         SharedPreferencesUtils.put(this, "videoCurTime", currentPosition);
-        Log.d(TAG, "onPause: " + SharedPreferencesUtils.get(this, "videoCurTime", -1));
+        //        Log.d(TAG, "onPause: " + SharedPreferencesUtils.get(this, "videoCurTime", -1));
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        flBg.setVisibility(View.VISIBLE);
         if ((int) SharedPreferencesUtils.get(this, "videoCountTime", -1) > (int) SharedPreferencesUtils.get(this, "videoCurTime", -1)) {
             vvMedia.seekTo((Integer) SharedPreferencesUtils.get(PlayActivity.this, "videoCurTime", -1));
         }
     }
+
+
+    public static void startToActivity(Context context) {
+        Intent intent = new Intent(context, PlayActivity.class);
+        context.startActivity(intent);
+    }
+
+
 }
