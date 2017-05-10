@@ -1,13 +1,21 @@
 package com.example.xgj.livemi.entity;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 /**
  * Created by chen on 2017/4/26.
  */
 
-public class PlayGiftEntity {
+public class PlayGiftEntity implements MultiItemEntity {
+
+    public static final int TYPE_1 = 100;
+    public static final int TYPE_2 = 200;
+
+
     private String imageUrl;
     private String shopName;
     private String price;
+    private int itemType;
 
     public String getImageUrl() {
         return imageUrl;
@@ -31,5 +39,14 @@ public class PlayGiftEntity {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
+
+    @Override
+    public int getItemType() {
+        return itemType;
     }
 }

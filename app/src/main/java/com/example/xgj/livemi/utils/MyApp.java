@@ -1,5 +1,6 @@
 package com.example.xgj.livemi.utils;
 
+import android.app.Activity;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -131,9 +132,14 @@ public class MyApp extends Application {
         return mMyApp;
     }
 
-//    public void autoFocus() {//键盘获取焦点
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
-//    }
+    public void downLoads(String downloadUrl, Activity activity) {
+        DownloadUtils downloadUtils = new DownloadUtils(activity);
+        downloadUtils.downloadAPK(downloadUrl, "XXX.apk");
+    }
+
+    //    public void autoFocus() {//键盘获取焦点
+    //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    //        imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
+    //    }
 
 }
