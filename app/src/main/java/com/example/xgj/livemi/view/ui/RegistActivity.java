@@ -11,14 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xgj.livemi.R;
+import com.example.xgj.livemi.entity.RegistEntity;
 import com.example.xgj.livemi.utils.ShowToastUtils;
 import com.example.xgj.livemi.view.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class RegistActivity extends BaseActivity {
-
 
 
     @BindView(R.id.et_phone)
@@ -92,12 +94,28 @@ public class RegistActivity extends BaseActivity {
             case R.id.btn_submit:
                 //提交数据,判断各个数据是否都正常，如长度等
                 //                                if (!TextUtils.isEmpty(etPhone.getText())&&etPhone.getText().equals("")){
-                if(etPhone.getText().length() > 4){
-                    ShowToastUtils.showToast(this,"hh");
+//                if (etPhone.getText().length() > 4) {
+//                    ShowToastUtils.showToast(this, "hh");
+//
+//                }
 
-            }
+                RegistEntity registEntity = new RegistEntity();
+                registEntity.setMobliephone(Integer.valueOf(etPhone.getText().toString()));
+                registEntity.setQqnumber(Integer.valueOf(etQQnumber.getText().toString()));
+                registEntity.setUsername(etUsername.getText().toString());
+                registEntity.setPassword(etPassword.getText().toString());
+                registEntity.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            ShowToastUtils.showToast(RegistActivity.this, "注册成功");
+                        }else {
+                            ShowToastUtils.showToast(RegistActivity.this,"注册失败");
+                        }
+                    }
+                });
 
-            break;
+                break;
         }
     }
 }

@@ -1,9 +1,13 @@
 package com.example.xgj.livemi.utils;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.File;
@@ -13,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+
+import static android.R.attr.path;
 
 /**
  * 图片下载的工具类
@@ -24,7 +30,7 @@ public class DownPicUtil {
      *
      * @param url
      */
-    public static void downPic(Bitmap url, DownFinishListener downFinishListener) {
+    public static void downPic(Context context, String url, DownFinishListener downFinishListener) {
         // 获取存储卡的目录
         String filePath = Environment.getExternalStorageDirectory().getPath();
         File file = new File(filePath + File.separator + "webViewCache");
@@ -32,8 +38,7 @@ public class DownPicUtil {
             file.mkdir();
         }
 
-//        loadPic(file.getPath(), url, downFinishListener);
-        loadPicBitmap(file.getPath(), url, downFinishListener);
+        loadPic(file.getPath(), url, downFinishListener);
     }
 
     //由url保存图片
@@ -106,97 +111,38 @@ public class DownPicUtil {
     }
 
 
-    //由bitmap保存图片到本地
-    public static void loadPicBitmap(final String filePath, final Bitmap bitmap, final DownFinishListener downFinishListener) {
-        //        Log.e("下载图片的bitmap", bitmap);
-        //        new AsyncTask<Void, Void, String>() {
-        //            String fileName;
-        //            InputStream is;
-        //            OutputStream out;
-        //
-        //            @Override
-        //            protected String doInBackground(Void... voids) {
-        //
-        //                // 下载文件的名称
-        //                //                String[] split = url.split("\\/");
-        //                //                String newString = split[split.length - 1];
-        //                //                fileName =newString.substring(newString.length()-20,newString.length()-1) ;
-        //                fileName = url.substring(url.lastIndexOf("/") + 1);
-        //                if (fileName.contains("?")) {
-        //                    fileName = fileName.substring(0, fileName.lastIndexOf("?"));
-        //                }
-        //                //                LOG.D("fileName = " + fileName);
-        //                // 创建目标文件,不是文件夹
-        //                File picFile = new File(filePath + File.separator + fileName);
-        //                if (picFile.exists()) {
-        //                    return picFile.getPath();
-        //                }
-        //
-        //                try {
-        //                    URL picUrl = new URL(url);
-        //                    //通过图片的链接打开输入流
-        //                    is = picUrl.openStream();
-        //                    if (is == null) {
-        //                        return null;
-        //                    }
-        //                    out = new FileOutputStream(picFile);
-        //                    byte[] b = new byte[1024];
-        //                    int end;
-        //                    while ((end = is.read(b)) != -1) {
-        //                        out.write(b, 0, end);
-        //                    }
-        //
-        //                    Log.e("OK??", "----------");
-        //                    if (is != null) {
-        //                        is.close();
-        //                    }
-        //
-        //                    if (out != null) {
-        //                        out.close();
-        //                    }
-        //
-        //                } catch (FileNotFoundException e) {
-        //                    e.printStackTrace();
-        //                } catch (IOException e) {
-        //                    e.printStackTrace();
-        //                }
-        //
-        //
-        //                return picFile.getPath();
-        //            }
-        //
-        //            @Override
-        //            protected void onPostExecute(String s) {
-        //                super.onPostExecute(s);
-        //                if (s != null) {
-        //                    downFinishListener.getDownPath(s);
-        //                }
-        //            }
-        //        }.execute();
-        if (bitmap != null) {
-            // 在这里执行图片保存方法
-            saveImageToGallery(bitmap);
+    /**
+     * 下载图片，返回图片的地址
+     *
+     * @param bitmap
+     */
+    public static void downPicBitmap(Context context, Bitmap bitmap, DownFinishListener downFinishListener) {
+        // 获取存储卡的目录
+        String filePath = Environment.getExternalStorageDirectory().getPath();
+        File file = new File(filePath + File.separator + "SaveBitmap");
+        if (!file.exists()) {
+            file.mkdir();
         }
+
+        saveImageToGallery(context, bitmap, downFinishListener);
     }
 
-    private static File currentFile;
 
-    private static void saveImageToGallery(Bitmap bitmap) {
+    //由bitmap保存图片到本地
+    public static void saveImageToGallery(Context context, Bitmap bmp, DownFinishListener downFinishListener) {
         // 首先保存图片
-        File File_file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsoluteFile();//注意小米手机必须这样获得public绝对路径
-        String fileName = "新建文件夹";
-        File appDir = new File(File_file, fileName);
+        File appDir = new File(Environment.getExternalStorageDirectory(), "Image");
         if (!appDir.exists()) {
-            appDir.mkdirs();
+            appDir.mkdir();
         }
-        fileName = System.currentTimeMillis() + ".jpg";
-        currentFile = new File(appDir, fileName);
-
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(currentFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
+            fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -210,8 +156,18 @@ public class DownPicUtil {
                 e.printStackTrace();
             }
         }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+        //        Toast.makeText(context,"保存成功",Toast.LENGTH_SHORT);
+        downFinishListener.getDownPath(null);
     }
-
 
     //下载完成回调的接口
     public interface DownFinishListener {
