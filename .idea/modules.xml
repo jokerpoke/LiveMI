@@ -3,13 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaseRecyclerViewAdapterHelpe/BaseRecyclerViewAdapterHelpe.iml" filepath="$PROJECT_DIR$/BaseRecyclerViewAdapterHelpe/BaseRecyclerViewAdapterHelpe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BmobDemo/BmobDemo.iml" filepath="$PROJECT_DIR$/BmobDemo/BmobDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/LiveMI.iml" filepath="$PROJECT_DIR$/LiveMI.iml" />
       <module fileurl="file://$PROJECT_DIR$/LiveView-master-master/LiveView-master-master.iml" filepath="$PROJECT_DIR$/LiveView-master-master/LiveView-master-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bubblinganimationview/bubblinganimationview.iml" filepath="$PROJECT_DIR$/bubblinganimationview/bubblinganimationview.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/material-spinner-1.0.5/material-spinner-1.0.5.iml" filepath="$PROJECT_DIR$/material-spinner-1.0.5/material-spinner-1.0.5.iml" />
-      <module fileurl="file://$PROJECT_DIR$/videoviewdemo/videoviewdemo.iml" filepath="$PROJECT_DIR$/videoviewdemo/videoviewdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/zhy_android_utils/zhy_android_utils.iml" filepath="$PROJECT_DIR$/zhy_android_utils/zhy_android_utils.iml" />
     </modules>
   </component>

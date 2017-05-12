@@ -8,7 +8,6 @@
     tools:context="com.example.xgj.livemi.view.ui.PlayActivity">
 
 
-
     <RelativeLayout
         android:id="@+id/rl_live"
         android:layout_width="match_parent"
@@ -102,12 +101,13 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/fl_bg"
-        android:background="#000"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="#000"
+        android:visibility="gone"
         >
 
         <ImageView

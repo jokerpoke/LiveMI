@@ -86,7 +86,7 @@ public class PlayActivity extends BaseActivity {
 
 
     private String videoPath = "http://biggame1.b0.upaiyun.com/video/a9d366a3c18911e631bf9327d458feb9.mp4";
-    //    private boolean fullscreen = false;//全屏/窗口播放切换标志
+    private boolean fullscreen = false;//全屏/窗口播放切换标志
 
     private boolean ishideTanMu = true;
 
@@ -432,6 +432,17 @@ public class PlayActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //销毁videoview，释放资源
+        if (vvMedia != null && vvMedia.isPlaying()) {
+            vvMedia.stopPlayback();
+        } else {
+            vvMedia.stopPlayback();
+        }
+    }
 
     public static void startToActivity(Context context) {
         Intent intent = new Intent(context, PlayActivity.class);

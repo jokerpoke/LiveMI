@@ -2,6 +2,8 @@ package com.example.xgj.livemi.view.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -37,6 +39,7 @@ public class RegistActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.btn_submit)
     Button btnSubmit;
+
 
     private Boolean showPassword = true;
 
@@ -83,39 +86,66 @@ public class RegistActivity extends BaseActivity {
                 if (showPassword) {//显示密码
                     showPassword = !showPassword;
                     etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    etPassword.setSelection(etPassword.getText().toString().length());
+                    etPassword.setSelection(etPassword.getText().length());
                 } else {//隐藏密码
                     showPassword = !showPassword;
                     etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    etPassword.setSelection(etPassword.getText().toString().length());
+                    etPassword.setSelection(etPassword.getText().length()
+                    );
                 }
 
                 break;
             case R.id.btn_submit:
                 //提交数据,判断各个数据是否都正常，如长度等
                 //                                if (!TextUtils.isEmpty(etPhone.getText())&&etPhone.getText().equals("")){
-//                if (etPhone.getText().length() > 4) {
-//                    ShowToastUtils.showToast(this, "hh");
-//
-//                }
+                //                if (etPhone.getText().length() > 4) {
+                //                    ShowToastUtils.showToast(this, "hh");
+                //
+                //                }
 
-                RegistEntity registEntity = new RegistEntity();
-                registEntity.setMobliephone(Integer.valueOf(etPhone.getText().toString()));
-                registEntity.setQqnumber(Integer.valueOf(etQQnumber.getText().toString()));
-                registEntity.setUsername(etUsername.getText().toString());
-                registEntity.setPassword(etPassword.getText().toString());
+                final RegistEntity registEntity = new RegistEntity();
+                //                registEntity.setMobliephone(111);
+                //                registEntity.setQqnumber(111);
+                //                registEntity.setUsername("111");
+                //                registEntity.setPassword("111");
+
+                if (TextUtils.isEmpty(etPhone.getText().toString()) || etPhone.getText().toString().equals("null")) {
+                    ShowToastUtils.showToast(RegistActivity.this, "手机号码不能为空！");
+                } else if (TextUtils.isEmpty(etQQnumber.getText().toString())) {
+                    ShowToastUtils.showToast(RegistActivity.this, "QQ号不能为空！");
+                } else if (TextUtils.isEmpty(etUsername.getText().toString())) {
+                    ShowToastUtils.showToast(RegistActivity.this, "用户名不能为空!");
+                } else if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                    ShowToastUtils.showToast(RegistActivity.this, "密码不能为空！");
+                } else {
+                    registEntity.setMobliephone(Integer.valueOf(etPhone.getText().toString()));
+                    registEntity.setQqnumber(Integer.valueOf(etQQnumber.getText().toString()));
+                    registEntity.setUsername(etUsername.getText().toString());
+                    registEntity.setPassword(etPassword.getText().toString());
+                }
                 registEntity.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
                         if (e == null) {
-                            ShowToastUtils.showToast(RegistActivity.this, "注册成功");
-                        }else {
-                            ShowToastUtils.showToast(RegistActivity.this,"注册失败");
+                            ShowToastUtils.showToast(RegistActivity.this, "注册成功,3秒后页面讲关闭==");
+                            registEntity.setObjectId(s);
+                        } else {
+                            ShowToastUtils.showToast(RegistActivity.this, "注册失败");
                         }
                     }
                 });
 
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 1500);
+
                 break;
         }
     }
+
+
 }
+

@@ -1,2 +1,2 @@
-include ':app', ':material-spinner-1.0.5', ':library', ':BaseRecyclerViewAdapterHelpe', ':videoviewdemo', ':bubblinganimationview', ':LiveView-master-master'
+include ':app', ':material-spinner-1.0.5', ':library', ':BaseRecyclerViewAdapterHelpe', ':bubblinganimationview', ':LiveView-master-master', ':BmobDemo'
 include ':zhy_android_utils'

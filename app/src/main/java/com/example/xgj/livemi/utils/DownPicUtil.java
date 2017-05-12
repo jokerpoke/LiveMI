@@ -156,6 +156,7 @@ public class DownPicUtil {
                 e.printStackTrace();
             }
         }
+        //注释掉以下方法图片只会保存一次，这个方法注释掉，然后路径通知全路径
         // 其次把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
@@ -165,7 +166,6 @@ public class DownPicUtil {
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
-        //        Toast.makeText(context,"保存成功",Toast.LENGTH_SHORT);
         downFinishListener.getDownPath(null);
     }
 

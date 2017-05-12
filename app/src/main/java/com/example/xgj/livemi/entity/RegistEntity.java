@@ -12,9 +12,36 @@ public class RegistEntity extends BmobObject {
     private int mobliephone;
     private String email;
     private int qqnumber;
+    public static String objectId;
+
+    @Override
+    public String getObjectId() {
+        return objectId;
+    }
+
+    @Override
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public int getQqnumber() {
         return qqnumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getMobliephone() {
+        return mobliephone;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setQqnumber(int qqnumber) {

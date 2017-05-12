@@ -12,6 +12,7 @@ import com.example.xgj.livemi.R;
 import com.example.xgj.livemi.view.BaseFragment;
 import com.example.xgj.livemi.view.ui.ContactusActivity;
 import com.example.xgj.livemi.view.ui.EarningActivity;
+import com.example.xgj.livemi.view.ui.LoginActivity;
 import com.example.xgj.livemi.view.ui.MyAccountActivity;
 import com.example.xgj.livemi.view.ui.RegistActivity;
 import com.example.xgj.livemi.view.ui.SearchActivity;
@@ -100,6 +101,8 @@ public class MyPersonFragment extends BaseFragment {
             case R.id.iv_message:
                 break;
             case R.id.civ_userImg:
+                //点击头像登录
+                LoginActivity.startToActivity(getActivity());
                 break;
             case R.id.tv_username:
                 break;
