@@ -19,8 +19,7 @@ import com.example.xgj.livemi.view.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+
 
 public class RegistActivity extends BaseActivity {
 
@@ -118,22 +117,22 @@ public class RegistActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(etPassword.getText().toString())) {
                     ShowToastUtils.showToast(RegistActivity.this, "密码不能为空！");
                 } else {
-                    registEntity.setMobliephone(Integer.valueOf(etPhone.getText().toString()));
-                    registEntity.setQqnumber(Integer.valueOf(etQQnumber.getText().toString()));
-                    registEntity.setUsername(etUsername.getText().toString());
-                    registEntity.setPassword(etPassword.getText().toString());
+//                    registEntity.setMobliephone(Integer.valueOf(etPhone.getText().toString()));
+//                    registEntity.setQqnumber(Integer.valueOf(etQQnumber.getText().toString()));
+//                    registEntity.setUsername(etUsername.getText().toString());
+//                    registEntity.setPassword(etPassword.getText().toString());
                 }
-                registEntity.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            ShowToastUtils.showToast(RegistActivity.this, "注册成功,3秒后页面讲关闭==");
-                            registEntity.setObjectId(s);
-                        } else {
-                            ShowToastUtils.showToast(RegistActivity.this, "注册失败");
-                        }
-                    }
-                });
+//                registEntity.save(new SaveListener<String>() {
+//                    @Override
+//                    public void done(String s, BmobException e) {
+//                        if (e == null) {
+//                            ShowToastUtils.showToast(RegistActivity.this, "注册成功,3秒后页面讲关闭==");
+//                            registEntity.setObjectId(s);
+//                        } else {
+//                            ShowToastUtils.showToast(RegistActivity.this, "注册失败");
+//                        }
+//                    }
+//                });
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

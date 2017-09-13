@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.xgj.livemi.textpack.SaveImgActivity">
-<ImageView
-    android:layout_width="300dp"
-    android:layout_height="300dp"
-    android:id="@+id/iv_img"/>
-
+    tools:context="com.example.xgj.livemi.textpack.inActivity">
+<Button
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:onClick="btn"/>
 </android.support.constraint.ConstraintLayout>

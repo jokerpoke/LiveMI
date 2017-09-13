@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import cn.bmob.v3.Bmob;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -33,7 +32,6 @@ public class MyApp extends Application {
         this.mMyApp = this;
         initGson();
         refWatcher = LeakCanary.install(this);
-        Bmob.initialize(this, "5ddd6d070b426a164e3757e19932e025");
     }
 
     public void initShareSdk() {

@@ -44,11 +44,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".view.ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".view.ui.PlayOverActivity">
         </activity>
@@ -108,6 +110,26 @@
         <activity android:name=".textpack.SaveImgActivity">
         </activity>
         <activity android:name=".view.ui.LoginActivity">
+        </activity>
+        <activity android:name=".textpack.loginActivity">
+        </activity>
+        <activity android:name=".textpack.ReferenceDemoActivity">
+        </activity>
+        <activity android:name=".textpack.Main3Activity">
+        </activity>
+        <activity android:name=".textpack.Main4Activity">
+        </activity>
+        <activity android:name=".textpack.TestAdTimeActivity">
+        </activity>
+        <activity android:name=".textpack.IntentActivity">
+
+        </activity>
+        <activity android:name=".textpack.CountDownTimerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

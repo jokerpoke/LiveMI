@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.xgj.livemi.textpack.SaveImgActivity">
-<ImageView
-    android:layout_width="300dp"
-    android:layout_height="300dp"
-    android:id="@+id/iv_img"/>
-
+    tools:context="com.example.xgj.livemi.textpack.CountDownTimerActivity">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="开始楼"
+    android:id="@+id/CountDownTimerActivity_tv_time"/>
 </android.support.constraint.ConstraintLayout>
